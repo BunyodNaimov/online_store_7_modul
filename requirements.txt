@@ -1,5 +1,6 @@
 django==4.2.2
 djangorestframework==3.14.0
+djangorestframework-simplejwt==5.2.2
 django-colorfield==0.8.0
 django-filter==23.2
 django-environ==0.10.0
