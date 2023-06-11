@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'users',
     'categories',
     'products',
+    'cart',
+    'orders',
 ]
 
 REST_FRAMEWORK = {
@@ -174,7 +176,10 @@ SWAGGER_SETTINGS = {
             'name': 'Authorization',
             'in': 'header'
         }
-    }
+    },
+    'LOGIN_URL': 'rest_framework:login',
+    'LOGOUT_URL': 'rest_framework:logout'
+
 }
 
 SMS_EMAIL = env("SMS_EMAIL")
@@ -188,3 +193,5 @@ SMS_KEY = env("SMS_KEY")
 
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_BROKER_URL = "redis://localhost:6379/0"
+
+

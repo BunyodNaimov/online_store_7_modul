@@ -9,10 +9,6 @@ class Category(models.Model):
     slug = models.SlugField(unique=True)
     parent = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True, related_name='sub_category')
 
-    @staticmethod
-    def get_all_categories():
-        return Category.objects.all()
-
     def get_absolute_url(self):
         """ Создание уникального url категории по slug
         """

@@ -43,10 +43,13 @@ swagger_urls = [
 ]
 
 urlpatterns = [
+    path("api-auth/", include("rest_framework.urls")),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls'), name='users'),
     path('categories/', include('categories.urls'), name='categories'),
     path('products/', include('products.urls'), name='products'),
+    path('cart/', include('cart.urls'), name='cart'),
+    path('orders/', include('orders.urls'), name='orders'),
 ]
 
 urlpatterns += swagger_urls
