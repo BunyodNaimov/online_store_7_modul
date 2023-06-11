@@ -1,14 +1,10 @@
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import update_last_login
+from django.contrib.auth.hashers import make_password
 from rest_framework import serializers, exceptions
-from rest_framework.exceptions import ValidationError
-from rest_framework.views import APIView
-from rest_framework_simplejwt.serializers import PasswordField
-from rest_framework_simplejwt.settings import api_settings
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.utils.translation import gettext_lazy as _
 
-import users.models
+import phonenumbers
+from rest_framework.authtoken.models import Token
+
 from users.models import CustomUser, VerificationCode
 from users.utils import phone_validator
 
@@ -67,4 +63,54 @@ class SendPhoneVerificationCodeSerializer(serializers.Serializer):
 class CheckPhoneVerificationCodeSerializer(serializers.Serializer):
     phone = serializers.CharField(max_length=15, validators=[phone_validator])
     code = serializers.CharField(min_length=6, max_length=6)
-    username = serializers.CharField(max_length=15, allow_blank=True)
+
+
+class UserPhoneLoginSerializer(serializers.ModelSerializer):
+    phone = serializers.CharField()
+
+    class Meta:
+        model = CustomUser
+        fields = ("phone",)
+
+    def validate_phone_number(self, phone):
+        parsed_number = phonenumbers.parse(phone, "US")
+        if not phonenumbers.is_valid_number(parsed_number):
+            raise serializers.ValidationError("Invalid phone number")
+        return phonenumbers.format_number(parsed_number, phonenumbers.PhoneNumberFormat.E164)
+
+    def validate(self, data):
+        phone = data.get("phone")
+
+        user = CustomUser.objects.get(phone=phone)
+
+        if user is None:
+            raise serializers.ValidationError("Invalid phone number or password")
+
+        data["user"] = user
+        return data
+
+    def create(self, validated_data):
+        user = validated_data["user"]
+        token, _ = Token.objects.get_or_create(user=user)
+        return {"token": token.key}
+
+
+class UserPhoneRegistrationSerializer(serializers.ModelSerializer):
+    phone = serializers.CharField(max_length=15)
+
+    class Meta:
+        model = CustomUser
+        fields = ("id", "phone", "password")
+        extra_kwargs = {"password": {"write_only": True}, "id": {"read_only": True}}
+
+    def validate_phone_number(self, phone_number):
+        parsed_number = phonenumbers.parse(phone_number, "US")
+        if not phonenumbers.is_valid_number(parsed_number):
+            raise serializers.ValidationError("Invalid phone number")
+        return phonenumbers.format_number(parsed_number, phonenumbers.PhoneNumberFormat.E164)
+
+    def create(self, validated_data):
+        phone_number = validated_data.pop("phone")
+        validated_data["phone"] = phone_number
+        validated_data["password"] = make_password(validated_data["password"])
+        return super().create(validated_data)
