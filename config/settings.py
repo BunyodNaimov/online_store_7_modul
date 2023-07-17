@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'drf_yasg',
     'dj_rest_auth',
     'django_filters',
+    'autoslug',
+    'import_export',
     # My apps
     'users',
     'categories',
@@ -194,4 +196,5 @@ SMS_KEY = env("SMS_KEY")
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_BROKER_URL = "redis://localhost:6379/0"
 
-
+# custom function, defined inline:
+AUTOSLUG_SLUGIFY_FUNCTION = lambda slug: 'can i haz %s?' % slug

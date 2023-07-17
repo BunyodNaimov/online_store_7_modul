@@ -12,10 +12,11 @@ class CategoryParentSerializers(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     parent = serializers.SerializerMethodField()
+    slug = serializers.SlugField(read_only=True)
 
     class Meta:
         model = Category
-        fields = ('id', 'name', 'parent')
+        fields = ('id', 'name', 'slug', 'parent')
 
     def get_parent(self, obj):
         if obj.parent:

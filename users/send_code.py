@@ -1,6 +1,6 @@
 import json
 
-import requests
+from celery.worker.state import requests
 from django.conf import settings
 
 

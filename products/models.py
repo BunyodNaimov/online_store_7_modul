@@ -1,3 +1,5 @@
+from random import randint
+
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
@@ -24,18 +26,29 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     category = models.ForeignKey(Category, related_name='product_category', on_delete=models.PROTECT)
 
-    # def save(self, *args, **kwargs):
-    #     self.slug = slugify(self.title)
-    #     slug = self.slug
-    #     if self.__class__.objects.filter(slug=slug).exists():
-    #         slug = f"{self.slug}-{self.id}"
-    #     self.slug = slug
-    #     return super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        # slug = self.slug
+        # if self.__class__.objects.filter(slug=slug).exists():
+        #     slug = f"{self.slug}-{self.id}"
+        # self.slug = slug
+        super().save(*args, **kwargs)
+
+        self.slug = slugify(f'{self.name} {self.id}')
+        super().save(*args, **kwargs)
+
+
 
     def get_absolute_url(self):
         """ Создание уникального url товара по slug
         """
         return reverse('product', kwargs={'slug': self.slug})
+
+    # def save(self, *args, **kwargs):
+    #     if not self.slug:
+    #         self.slug = f'{slugify(self.name)}-{randint(1, 9999)}'
+    #
+    #     return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name

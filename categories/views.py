@@ -14,7 +14,7 @@ from pagination import CustomPageNumberPagination
 
 
 class CategoryListCreateAPIView(ListCreateAPIView):
-    queryset = Category.objects.all()
+    queryset = Category.objects.order_by('name')
     serializer_class = CategorySerializer
 
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
