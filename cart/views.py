@@ -20,13 +20,13 @@ class CartListAPIView(ListAPIView):
 
 class AddToCartView(APIView):
 
-    # AddToCartView sinfi APIView asosida yaratilgan. POST so'roviga pk qiymati yuboriladi.
-    # Product modelidan pk maydoni orqali mahsulot olinadi. Olinadigan pk qiymati har bir
-    # mahsulot uchun unikal id hisoblanadi. Cart obyekti olinadi yoki yaratiladi. Order obyekti
-    # olinadi va Order obyektida mahsulotni topish uchun filter yordamidan foydalaniladi.
-    # Order obyektida mahsulot mavjud bo'lsa, Cart obyektiga qo'shiladi. Aks holda, yangi
-    # Order obyekti yaratiladi va Cart obyektiga qo'shiladi. serializer yordamida JSON formatida
-    # qaytariladi. Agar pk qiymati Product modelida mavjud emas bo'lsa, NotFound istisnasi qaytariladi.
+    """AddToCartView sinfi APIView asosida yaratilgan. POST so'roviga pk qiymati yuboriladi.
+    Product modelidan pk maydoni orqali mahsulot olinadi. Olinadigan pk qiymati har bir
+    mahsulot uchun unikal id hisoblanadi. Cart obyekti olinadi yoki yaratiladi. Order obyekti
+    olinadi va Order obyektida mahsulotni topish uchun filter yordamidan foydalaniladi.
+    Order obyektida mahsulot mavjud bo'lsa, Cart obyektiga qo'shiladi. Aks holda, yangi
+    Order obyekti yaratiladi va Cart obyektiga qo'shiladi. serializer yordamida JSON formatida
+    qaytariladi. Agar pk qiymati Product modelida mavjud emas bo'lsa, NotFound istisnasi qaytariladi."""
 
     def post(self, request, product_id):
         try:
@@ -61,15 +61,15 @@ class AddToCartView(APIView):
 
 class RemoveFromCartView(APIView):
 
-    # RemoveFromCartView sinfi APIView asosida yaratilgan.
-    # POST so'roviga pk qiymati yuboriladi. Product modelidan pk maydoni orqali mahsulot olinadi.
-    # Olinadigan pk qiymati har bir mahsulot uchun unikal id hisoblanadi.
-    # Cart obyekti olib tashlanadi va quantity maydoni tekshiriladi. Agar quantity 1 dan katta bo'lsa,
-    # soni 1 kamaytiriladi. Aks holda, Cart obyekti o'chiriladi. Order obyekti olinadi va
-    # Order obyektida mahsulotni topish uchun filter yordamidan foydalaniladi. Order obyektida
-    # mahsulot mavjud bo'lsa, Cart obyektidan olib tashlanadi va serializer yordamida JSON formatida
-    # qaytariladi. Agar pk qiymati Product modelida mavjud emas yoki Cart obyekti topilmay qoldirilgan
-    # bo'lsa, NotFound istisnasi qaytariladi.
+    """RemoveFromCartView sinfi APIView asosida yaratilgan.
+    POST so'roviga pk qiymati yuboriladi. Product modelidan pk maydoni orqali mahsulot olinadi.
+    Olinadigan pk qiymati har bir mahsulot uchun unikal id hisoblanadi.
+    Cart obyekti olib tashlanadi va quantity maydoni tekshiriladi. Agar quantity 1 dan katta bo'lsa,
+    soni 1 kamaytiriladi. Aks holda, Cart obyekti o'chiriladi. Order obyekti olinadi va
+    Order obyektida mahsulotni topish uchun filter yordamidan foydalaniladi. Order obyektida
+    mahsulot mavjud bo'lsa, Cart obyektidan olib tashlanadi va serializer yordamida JSON formatida
+    qaytariladi. Agar pk qiymati Product modelida mavjud emas yoki Cart obyekti topilmay qoldirilgan
+    bo'lsa, NotFound istisnasi qaytariladi."""
 
     def post(self, request, product_id):
         try:

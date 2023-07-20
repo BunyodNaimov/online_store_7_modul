@@ -4,7 +4,6 @@ from products.models import Product
 from users.models import CustomUser
 
 
-# Cart Model
 class Cart(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     item = models.ForeignKey(Product, on_delete=models.CASCADE)
