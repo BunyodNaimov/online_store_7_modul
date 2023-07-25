@@ -28,9 +28,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
-    """
-    Класс Serializer для аутентификации пользователей с помощью имени пользователя и пароля.
-    """
     username = serializers.CharField()
     password = serializers.CharField()
 

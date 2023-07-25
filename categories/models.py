@@ -19,8 +19,6 @@ class Category(models.Model):
     parent = models.ForeignKey('self', on_delete=models.PROTECT, blank=True, null=True, related_name='sub_category')
 
     def get_absolute_url(self):
-        """ Создание уникального url категории по slug
-        """
         return reverse('category', kwargs={'slug': self.slug})
 
     def __str__(self):

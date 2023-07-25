@@ -24,11 +24,7 @@ from users.serializers import UserRegistrationSerializer, UserLoginSerializer, S
 from .tasks import send_verification_code
 
 
-# Create your views here.
-
 class UserRegistrationAPIView(GenericAPIView):
-    # Конечная точка для создания нового пользователя.
-
     permission_classes = [AllowAny]
     serializer_class = UserRegistrationSerializer
 

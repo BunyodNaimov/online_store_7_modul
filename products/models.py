@@ -10,9 +10,6 @@ from categories.models import Category, Brand
 
 
 class Product(models.Model):
-    """ Модель товара
-    """
-
     name = models.CharField('Название', max_length=100, db_index=True)
     slug = models.SlugField(max_length=150, unique=True)
     brand = models.ForeignKey(Brand, null=True, blank=True, on_delete=models.PROTECT, related_name='product_brand')
@@ -37,18 +34,8 @@ class Product(models.Model):
         self.slug = slugify(f'{self.name} {self.id}')
         super().save(*args, **kwargs)
 
-
-
     def get_absolute_url(self):
-        """ Создание уникального url товара по slug
-        """
         return reverse('product', kwargs={'slug': self.slug})
-
-    # def save(self, *args, **kwargs):
-    #     if not self.slug:
-    #         self.slug = f'{slugify(self.name)}-{randint(1, 9999)}'
-    #
-    #     return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name

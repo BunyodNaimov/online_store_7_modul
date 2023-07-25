@@ -63,9 +63,3 @@ class CategoryDetail(APIView):
         category = get_object_or_404(Category, pk=pk)
         category.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-    # def get_permissions(self):
-    #     if self.request.method in ("PUT", "PATCH", "DELETE"):
-    #         self.permission_classes = (IsUserOrReadOnly,)
-    #     else:
-    #         self.permission_classes = (permissions.AllowAny,)
